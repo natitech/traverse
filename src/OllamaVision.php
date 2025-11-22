@@ -18,6 +18,7 @@ final readonly class OllamaVision implements Vision
                 '/<script\b[^>]*>(.*?)<\/script>/is',
                 '/<style\b[^>]*>(.*?)<\/style>/is',
                 '/<svg\b[^>]*>(.*?)<\/svg>/is',
+                '/<link(.*?)\/>/is',
                 '/<!--(.*?)-->/s',
             ],
             '',
@@ -27,6 +28,8 @@ final readonly class OllamaVision implements Vision
         $cleanHtml = preg_replace('/\s+/', ' ', $cleanHtml);
 
         //$cleanHtml = substr($cleanHtml, 0, 30000);
+
+        $this->logger->info('Trying to describe UI and elements after action');
 
         return $this->client->chat(
             'Convert this HTML: ' . "\n"

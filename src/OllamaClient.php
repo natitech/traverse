@@ -11,22 +11,25 @@ final readonly class OllamaClient
         private string $baseUrl,
         private string $model,
         private string $systemPrompt,
-        private array $options = [],
     ) {}
 
-    public function chat(string $userPrompt): string
+    public function chat(string $userPrompt, ?string $format = null): string
     {
-        $response = $this->http->request('POST', $this->baseUrl, [
-            'json' => [
-                'model' => $this->model,
-                'messages' => [
-                    ['role' => 'system', 'content' => $this->systemPrompt],
-                    ['role' => 'user', 'content' => $userPrompt],
+        $response = $this->http->request(
+            'POST',
+            $this->baseUrl . '/api/chat',
+            [
+                'json' => [
+                    'model' => $this->model,
+                    'messages' => [
+                        ['role' => 'system', 'content' => $this->systemPrompt],
+                        ['role' => 'user', 'content' => $userPrompt],
+                    ],
+                    'stream' => false,
+                    'format' => $format,
                 ],
-                'stream' => false,
-                'options' => $this->options,
             ],
-        ]);
+        );
 
         $data = $response->toArray();
 

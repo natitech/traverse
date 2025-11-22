@@ -9,6 +9,7 @@ Thumbs.db
 *.swp
 .idea
 
+drivers
 vendor
 .phpunit.result.cache
 .php-cs-fixer.cache

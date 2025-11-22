@@ -13,6 +13,12 @@ final readonly class OllamaReasoning implements Reasoning
 
     public function decideNext(string $goal, ?string $snapshot, array $history): ?Action
     {
+        if (!$history) {
+            $this->logger->info('Deciding what to do next', ['goal' => $goal]);
+        } else {
+            $this->logger->info('Deciding what to do next', ['history' => array_map(fn(Action $a) => $a->description, $history)]);
+        }
+
         return $this->parseResponse(
             $this->client->chat(
                 'GOAL: ' . $goal . "\n"
@@ -24,6 +30,7 @@ final readonly class OllamaReasoning implements Reasoning
                 . implode("\n - ", array_map(fn(Action $action) => $action->description, $history))
                 . "\n"
                 . 'What is the next step? JSON Only.',
+                'json',
             ),
         );
     }
@@ -56,11 +63,10 @@ final readonly class OllamaReasoning implements Reasoning
 
     private function command(string $actionName): ActionCommand
     {
-        return match ($actionName) {
-            'navigate' => ActionCommand::NAVIGATE,
-            'click' => ActionCommand::CLICK,
-            'fill' => ActionCommand::FILL,
-            default => throw new NoActionFoundException('Unknown action: ' . $actionName),
-        };
+        try {
+            return ActionCommand::from($actionName);
+        } catch (\ValueError $e) {
+            throw new NoActionFoundException('Unknown action: ' . $actionName, 0, $e);
+        }
     }
 }

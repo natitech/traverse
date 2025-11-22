@@ -2,9 +2,9 @@
 
 namespace Traverse;
 
-enum ActionCommand
+enum ActionCommand: string
 {
-    case NAVIGATE;
-    case CLICK;
-    case FILL;
+    case NAVIGATE = 'navigate';
+    case CLICK = 'click';
+    case FILL = 'fill';
 }
