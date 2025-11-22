@@ -1,0 +1,7 @@
+parameters:
+  additionalConstructors:
+    - PHPUnit\Framework\TestCase::setUp
+  level: 5
+  paths:
+    - src
+    - test

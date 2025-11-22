@@ -1,0 +1,25 @@
+{
+  "name": "nati/traverse",
+  "require": {
+    "php": "^8.4",
+    "monolog/monolog": "^3.9",
+    "symfony/http-client": "v7.3",
+    "symfony/panther": "^2.3"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^v3.87",
+    "fakerphp/faker": "^1.4",
+    "phpunit/phpunit": "^12.0",
+    "phpstan/phpstan": "^2.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Traverse\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Traverse\\Test\\": "test"
+    }
+  }
+}
